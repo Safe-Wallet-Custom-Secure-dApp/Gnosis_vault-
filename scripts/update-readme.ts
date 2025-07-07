@@ -1,43 +1,57 @@
-scripts/update-readme.ts
-import fs from "fs";
-import path from "path";
-import axios from "axios";
+import fs from 'fs';
+import path from 'path';
+import https from 'https';
 
-const PROPOSALS_START = "<!--START_SAFE_PROPOSALS-->";
-const PROPOSALS_END = "<!--END_SAFE_PROPOSALS-->";
+const README_PATH = path.join(process.cwd(), 'README.md');
+const START = '<!--START_SAFE_PROPOSALS-->';
+const END = '<!--END_SAFE_PROPOSALS-->';
 
-async function fetchSafeProposals(): Promise<string> {
-  // Placeholder mock data
-  const mockData = [
-    "✅ Proposal #1: Send 0.5 ETH to 0xABC...123",
-    "🔄 Proposal #2: Upgrade contract to v2.3",
-  ];
-  return mockData.map((line) => `- ${line}`).join("\n");
-}
+// Dummy Safe proposal data
+const proposals = [
+  { id: 1, title: 'Transfer USDC to Treasury', status: '✅ Executed' },
+  { id: 2, title: 'Add New Signer', status: '🕒 Pending' },
+];
 
-async function updateReadme() {
-  const readmePath = path.join(process.cwd(), "README.md");
-  const readmeContent = fs.readFileSync(readmePath, "utf8");
+const generateMarkdown = () => {
+  return proposals.map(p => `- **#${p.id}**: ${p.title} — ${p.status}`).join('\n');
+};
 
-  const proposalsContent = await fetchSafeProposals();
+const updateReadme = () => {
+  const readme = fs.readFileSync(README_PATH, 'utf8');
+  const [before, rest] = readme.split(START);
+  const [, after] = rest.split(END);
 
-  const updated = readmeContent.replace(
-    new RegExp(`${PROPOSALS_START}[\\s\\S]*?${PROPOSALS_END}`),
-    `${PROPOSALS_START}\n${proposalsContent}\n${PROPOSALS_END}`
+  const newContent = `${before}${START}
+${generateMarkdown()}
+${END}${after}`;
+
+  fs.writeFileSync(README_PATH, newContent.trim());
+  console.log('✅ README.md updated');
+};
+
+const notifySlack = () => {
+  const payload = JSON.stringify({
+    text: `✅ Safe proposals synced to README.md\n\n${generateMarkdown()}`,
+  });
+
+  const req = https.request(
+    process.env.SLACK_WEBHOOK!,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload),
+      },
+    },
+    res => {
+      console.log(`🔔 Slack response: ${res.statusCode}`);
+    }
   );
 
-  fs.writeFileSync(readmePath, updated);
-  console.log("✅ README.md updated");
+  req.on('error', err => console.error('Slack error:', err));
+  req.write(payload);
+  req.end();
+};
 
-  if (process.env.DISCORD_WEBHOOK) {
-    await axios.post(process.env.DISCORD_WEBHOOK, {
-      content: "📢 README.md has been updated with new Safe proposals!",
-    });
-    console.log("✅ Discord notified");
-  }
-}
-
-updateReadme().catch((err) => {
-  console.error("❌ Error updating README:", err);
-  process.exit(1);
-});
+updateReadme();
+notifySlack();
