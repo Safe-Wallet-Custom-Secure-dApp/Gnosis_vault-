@@ -1,0 +1,9 @@
+name: Sync Safe Proposals
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update-readme.ts'
+      - 'README.md'
+      - '.github/workflows/update-readme.yml'
