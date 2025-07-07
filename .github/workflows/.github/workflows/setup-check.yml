@@ -1,36 +1,31 @@
-name: 🔍 Setup Check & Install Deps
+name: Update Org README
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - '**.ts'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/setup-check.yml'
+      - 'update-readme.ts'
+      - 'README.md'
+      - '.github/workflows/update-readme.yml'
 
 jobs:
-  check-deps:
+  sync-readme:
+    name: Sync README and Notify Discord
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🛎 Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: 🧱 Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm'
 
-      - name: 📦 Install pnpm
-        run: npm install -g pnpm
+      - name: Install dependencies
+        run: npm install
 
-      - name: 🧪 Install dependencies
-        run: pnpm install
-
-      - name: 🔎 Check versions
-        run: |
-          node -v
-          pnpm -v
-          npx ts-node -v
+      - name: Run update script
+        run: npx ts-node update-readme.ts
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
