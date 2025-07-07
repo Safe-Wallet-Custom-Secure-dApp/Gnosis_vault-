@@ -10,7 +10,7 @@ on:
 
 jobs:
   sync-readme:
-    name: Sync README and Notify Discord
+    name: Sync README and Notify Slack
     runs-on: ubuntu-latest
 
     steps:
@@ -28,4 +28,4 @@ jobs:
       - name: Run update script
         run: npx ts-node update-readme.ts
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
