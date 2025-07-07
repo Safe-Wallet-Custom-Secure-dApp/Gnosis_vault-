@@ -6,10 +6,10 @@ const README_PATH = path.join(process.cwd(), 'README.md');
 const START = '<!--START_SAFE_PROPOSALS-->';
 const END = '<!--END_SAFE_PROPOSALS-->';
 
-// Dummy Safe proposal data
+// 🔄 Mock Safe proposal data
 const proposals = [
-  { id: 1, title: 'Transfer USDC to Treasury', status: '✅ Executed' },
-  { id: 2, title: 'Add New Signer', status: '🕒 Pending' },
+  { id: 1, title: 'Transfer ETH to Treasury', status: '✅ Executed' },
+  { id: 2, title: 'Add New Signer to Safe', status: '🕒 Pending' },
 ];
 
 const generateMarkdown = () => {
@@ -26,16 +26,23 @@ ${generateMarkdown()}
 ${END}${after}`;
 
   fs.writeFileSync(README_PATH, newContent.trim());
-  console.log('✅ README.md updated');
+  console.log('✅ README.md updated with latest Safe proposals.');
 };
 
 const notifySlack = () => {
+  const slackWebhook = process.env.SLACK_WEBHOOK;
+
+  if (!slackWebhook) {
+    console.error('❌ SLACK_WEBHOOK not set.');
+    return;
+  }
+
   const payload = JSON.stringify({
-    text: `✅ Safe proposals synced to README.md\n\n${generateMarkdown()}`,
+    text: `✅ Safe proposals synced to \`README.md\`\n\n${generateMarkdown()}`,
   });
 
   const req = https.request(
-    process.env.SLACK_WEBHOOK!,
+    slackWebhook,
     {
       method: 'POST',
       headers: {
@@ -44,11 +51,11 @@ const notifySlack = () => {
       },
     },
     res => {
-      console.log(`🔔 Slack response: ${res.statusCode}`);
+      console.log(`🔔 Slack webhook response: ${res.statusCode}`);
     }
   );
 
-  req.on('error', err => console.error('Slack error:', err));
+  req.on('error', err => console.error('Slack Error:', err));
   req.write(payload);
   req.end();
 };
