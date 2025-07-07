@@ -1,1 +1,31 @@
-.github/workflows/update-readme.yml
+name: Update Org README
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/update-readme.ts'
+      - 'README.md'
+      - '.github/workflows/update-readme.yml'
+
+jobs:
+  sync-readme:
+    name: Sync README and Notify Discord
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run update script
+        run: npx ts-node scripts/update-readme.ts
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
