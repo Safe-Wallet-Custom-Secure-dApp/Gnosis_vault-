@@ -2,24 +2,35 @@ name: 🔍 Setup Check & Install Deps
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '**.ts'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/setup-check.yml'
 
 jobs:
-  setup:
+  check-deps:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
-      - name: Set up Node.js
+    steps:
+      - name: 🛎 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🧱 Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
+          cache: 'pnpm'
 
-      - name: Install pnpm
+      - name: 📦 Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
+      - name: 🧪 Install dependencies
         run: pnpm install
 
-      - name: Build the app
-        run: pnpm run build
+      - name: 🔎 Check versions
+        run: |
+          node -v
+          pnpm -v
+          npx ts-node -v
