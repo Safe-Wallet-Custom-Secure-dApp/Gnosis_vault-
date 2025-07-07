@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'scripts/update-readme.ts'
+      - 'update-readme.ts'
       - 'README.md'
       - '.github/workflows/update-readme.yml'
 
@@ -26,6 +26,6 @@ jobs:
         run: npm install
 
       - name: Run update script
-        run: npx ts-node scripts/update-readme.ts
+        run: npx ts-node update-readme.ts
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
