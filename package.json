@@ -1,13 +1,17 @@
 {
-  "name": "gnosis-vault",
+  "name": "gnosis-vault-safe-automation",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "update": "ts-node scripts/update-readme.ts"
+    "update-readme": "ts-node scripts/update-readme.ts"
   },
   "dependencies": {
-    "axios": "^1.6.0"
+    "@safe-global/protocol-kit": "^1.1.1",
+    "@safe-global/safe-core-sdk": "^7.1.0",
+    "axios": "^1.6.8",
+    "ethers": "^6.7.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "ts-node": "^10.9.1",
