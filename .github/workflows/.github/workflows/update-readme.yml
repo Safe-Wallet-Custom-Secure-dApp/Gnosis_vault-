@@ -2,23 +2,26 @@ name: Update Org README
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours (optional)
   push:
     paths:
-      - 'update-readme.ts'
+      - 'scripts/update-readme.ts'
       - 'README.md'
+      - 'package.json'
       - '.github/workflows/update-readme.yml'
 
 jobs:
   sync-readme:
-    name: Sync README and Notify Discord
+    name: Sync README and Notify Slack
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -26,6 +29,6 @@ jobs:
         run: npm install
 
       - name: Run update script
-        run: npx ts-node update-readme.ts
+        run: npm run update-readme
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
