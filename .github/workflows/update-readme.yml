@@ -1,4 +1,4 @@
-name: Update Org README
+name: Sync Safe Proposals
 
 on:
   workflow_dispatch:
