@@ -1,0 +1,13 @@
+/ (root)
+├── public/
+│   └── logo.png              <- Your Safe logo
+├── components/
+│   └── SafeDashboard.tsx     <- Main dashboard logic
+├── pages/
+│   └── index.tsx             <- Loads and renders dashboard
+├── styles/
+│   └── globals.css           <- Optional custom styles
+├── package.json              <- Project config
+├── tsconfig.json             <- TypeScript config
+├── next.config.js            <- (Optional)
+└── .env                      <- RPCs + Safe addresses
