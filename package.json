@@ -1,0 +1,9 @@
+{
+  "name": "gnosis-vault",
+  "version": "1.0.0",
+  "dependencies": {
+    "@safe-global/safe-core-sdk": "^3.3.5",
+    "@safe-global/protocol-kit": "^1.1.1",
+    "ethers": "^6.7.0"
+  }
+}
