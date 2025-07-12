@@ -1,0 +1,5 @@
+- Require status checks:
+  - build
+  - test
+  - Safe proposal validation
+  - Discord webhook ping check
