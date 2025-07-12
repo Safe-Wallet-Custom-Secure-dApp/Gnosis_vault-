@@ -1,0 +1,3 @@
+- Allow PRs from forks
+- Require at least one reviewer for merge
+- Allow pushes from maintainers
