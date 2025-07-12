@@ -1,0 +1,5 @@
+# Install dependencies if needed
+pnpm add -D ts-node @octokit/rest
+
+# Run with your token (don’t hardcode it!)
+GITHUB_TOKEN=ghp_123abc456def pnpm apply:rulesets
