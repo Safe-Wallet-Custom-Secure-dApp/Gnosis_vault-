@@ -1,0 +1,19 @@
+{
+  "name": "Sensitive File Change Guard",
+  "target": "branch",
+  "enforcement": "active",
+  "includes": ["**"],
+  "file_patterns": [
+    "**/.env",
+    "**/secrets.yaml",
+    "**/*.key",
+    "**/safe-config.ts"
+  ],
+  "rules": {
+    "required_reviewers": {
+      "teams": ["security", "owners"],
+      "members": ["thegoodeth12"]
+    },
+    "block_unauthorized_pushes": true
+  }
+}
