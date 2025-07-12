@@ -1,6 +1,7 @@
 {
-  "name": "gnosis-vault",
-  "version": "1.0.0",
+  "scripts": {
+    "deploy-safe": "node scripts/deploy-safe.js"
+  },
   "dependencies": {
     "@safe-global/safe-core-sdk": "^3.3.5",
     "@safe-global/protocol-kit": "^1.1.1",
