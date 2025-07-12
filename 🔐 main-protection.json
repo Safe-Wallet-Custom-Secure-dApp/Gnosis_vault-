@@ -1,0 +1,21 @@
+{
+  "name": "Main Branch Protection (Safe Vault)",
+  "target": "branch",
+  "enforcement": "active",
+  "includes": ["main"],
+  "rules": {
+    "pull_request": true,
+    "required_approving_review_count": 2,
+    "required_status_checks": [
+      "build",
+      "test",
+      "validate-safe-proposal",
+      "ping-discord-webhook"
+    ],
+    "require_signed_commits": true,
+    "allowed_push_actors": ["github-actions[bot]"],
+    "block_force_pushes": true,
+    "block_deletions": true,
+    "require_linear_history": true
+  }
+}
