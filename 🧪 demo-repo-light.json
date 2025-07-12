@@ -1,0 +1,13 @@
+{
+  "name": "Demo Repository PR Rules",
+  "target": "branch",
+  "enforcement": "active",
+  "includes": ["main"],
+  "repositories": ["demo-repository"],
+  "rules": {
+    "pull_request": true,
+    "required_approving_review_count": 1,
+    "allow_fork_pull_requests": true,
+    "allow_push_from_maintainers": true
+  }
+}
