@@ -2,15 +2,9 @@
   "name": "safe-dashboard",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "vercel-deploy": "vercel --prod"
+    "update-readme": "ts-node scripts/update-readme.ts"
   },
   "dependencies": {
-    "next": "14.2.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@safe-global/safe-core-sdk": "^6.2.1",
     "@safe-global/protocol-kit": "^1.1.1",
     "ethers": "^6.7.0",
@@ -19,7 +13,7 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "@types/react": "^18.0.27",
-    "@types/node": "^20.4.2"
-  }
+    "ts-node": "^10.9.1"
+  },
+  "packageManager": "pnpm@8.6.0"
 }
