@@ -1,10 +1,20 @@
 {
+  "name": "safe-contract-deployment",
+  "version": "1.0.0",
+  "description": "Deployment scripts for Safe contracts",
+  "main": "index.js",
   "scripts": {
-    "deploy-safe": "node scripts/deploy-safe.js"
+    "deploy-safe": "node scripts/deploy-safe.js",
+    "deploy-all": "node scripts/deploy-all-safes.js",
+    "update-readme": "node scripts/update-readme.js"
   },
   "dependencies": {
     "@safe-global/safe-core-sdk": "^3.3.5",
     "@safe-global/protocol-kit": "^1.1.1",
-    "ethers": "^6.7.0"
-  }
+    "ethers": "^6.7.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {},
+  "author": "thegoodeth12",
+  "license": "MIT"
 }
