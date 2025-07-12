@@ -8,12 +8,12 @@
     "vercel-deploy": "vercel --prod"
   },
   "dependencies": {
-    "next": "^14.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ethers": "^6.7.0",
-    "@safe-global/protocol-kit": "^1.1.1",
-    "@safe-global/safe-core-sdk": "^7.1.0"
+  "@safe-global/safe-core-sdk": "^6.2.1",
+  "@safe-global/protocol-kit": "^1.1.1",
+  "ethers": "^6.7.0",
+  "axios": "^1.6.8",
+  "dotenv": "^16.3.1"
+}
   },
   "devDependencies": {
     "typescript": "^5.2.2",
