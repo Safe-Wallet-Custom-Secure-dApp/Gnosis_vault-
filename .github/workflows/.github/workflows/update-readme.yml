@@ -1,34 +1,25 @@
-name: Update Org README
+name: Sync README and Notify Slack
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours (optional)
   push:
-    paths:
-      - 'scripts/update-readme.ts'
-      - 'README.md'
-      - 'package.json'
-      - '.github/workflows/update-readme.yml'
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  sync-readme:
-    name: Sync README and Notify Slack
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install  # or use npm install if you're not using pnpm
 
       - name: Run update script
-        run: npm run update-readme
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: pnpm run update-readme  # or npm run update-readme
