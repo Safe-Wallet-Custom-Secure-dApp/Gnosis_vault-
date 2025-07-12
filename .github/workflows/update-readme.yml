@@ -1,31 +1,25 @@
-name: Sync Safe Proposals
+name: Sync README and Notify Slack
 
 on:
-  workflow_dispatch:
   push:
-    paths:
-      - 'scripts/update-readme.ts'
-      - 'README.md'
-      - '.github/workflows/update-readme.yml'
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  sync-readme:
-    name: Sync README and Notify Slack
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install   # or use "npm install"
 
       - name: Run update script
-        run: npx ts-node scripts/update-readme.ts
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: pnpm run update-readme   # or "npm run update-readme"
