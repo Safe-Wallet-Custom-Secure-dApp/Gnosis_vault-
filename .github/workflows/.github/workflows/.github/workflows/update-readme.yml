@@ -1,31 +1,27 @@
-name: Sync Safe Proposals
-
-on:
-  workflow_dispatch:
-  push:
-    paths:
-      - 'scripts/update-readme.ts'
-      - 'README.md'
-      - '.github/workflows/update-readme.yml'
-
-jobs:
-  sync:
-    name: Update README and Notify Slack
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run update script
-        run: npm run update-readme
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+{
+  "name": "gnosis-vault-safe-automation",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "vercel-deploy": "vercel --prod",
+    "update-readme": "ts-node scripts/update-readme.ts"
+  },
+  "dependencies": {
+    "@safe-global/safe-core-sdk": "^3.3.5",
+    "@safe-global/protocol-kit": "^1.1.1",
+    "ethers": "^6.7.0",
+    "axios": "^1.6.8",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "@types/node": "^20.4.2",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10"
+  },
+  "packageManager": "pnpm@8.6.0"
+}
