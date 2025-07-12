@@ -1,0 +1,56 @@
+import { Octokit } from "@octokit/rest";
+import * as fs from "fs";
+import * as path from "path";
+import axios from "axios";
+
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK!;
+const ORG = "Safe-Wallet-Custom-Secure-dApp";
+const RULESETS_DIR = path.join(__dirname, "../rulesets");
+
+const octokit = new Octokit({ auth: GITHUB_TOKEN });
+
+async function notifySlack(text: string) {
+  if (!SLACK_WEBHOOK) return;
+  try {
+    await axios.post(SLACK_WEBHOOK, { text });
+  } catch (err) {
+    console.error("❌ Slack notification failed:", err.message);
+  }
+}
+
+async function applyRulesets() {
+  const files = fs.readdirSync(RULESETS_DIR).filter(f => f.endsWith(".json"));
+
+  for (const file of files) {
+    const filePath = path.join(RULESETS_DIR, file);
+    const ruleset = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+
+    try {
+      await octokit.request("POST /orgs/{org}/rulesets", {
+        org: ORG,
+        name: ruleset.name,
+        target: ruleset.target,
+        enforcement: ruleset.enforcement,
+        conditions: {
+          ref_name: {
+            include: ruleset.includes
+          }
+        },
+        rules: ruleset.rules,
+        bypass_actors: [],
+        applies_to: ruleset.repositories || undefined
+      });
+
+      const message = `✅ Ruleset applied: *${ruleset.name}*`;
+      console.log(message);
+      await notifySlack(message);
+    } catch (err: any) {
+      const errorMsg = `❌ Failed to apply ruleset: *${ruleset.name}*\nError: ${err.message}`;
+      console.error(errorMsg);
+      await notifySlack(errorMsg);
+    }
+  }
+}
+
+applyRulesets();
