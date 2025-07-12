@@ -1,19 +1,7 @@
-{
-  "name": "safe-dashboard",
-  "version": "1.0.0",
-  "scripts": {
-    "update-readme": "ts-node scripts/update-readme.ts"
-  },
-  "dependencies": {
-    "@safe-global/safe-core-sdk": "^6.2.1",
-    "@safe-global/protocol-kit": "^1.1.1",
-    "ethers": "^6.7.0",
-    "axios": "^1.6.8",
-    "dotenv": "^16.3.1"
-  },
-  "devDependencies": {
-    "typescript": "^5.2.2",
-    "ts-node": "^10.9.1"
-  },
-  "packageManager": "pnpm@8.6.0"
+"dependencies": {
+  "@safe-global/safe-core-sdk": "^3.3.5",
+  "@safe-global/protocol-kit": "^1.1.1",
+  "ethers": "^6.7.0",
+  "axios": "^1.6.8",
+  "dotenv": "^16.3.1"
 }
