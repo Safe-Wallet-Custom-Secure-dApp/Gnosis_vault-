@@ -18,8 +18,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
       - name: Install dependencies
-        run: pnpm install   # or use "npm install"
+        run: pnpm install
 
       - name: Run update script
-        run: pnpm run update-readme   # or "npm run update-readme"
+        run: pnpm run update-readme
