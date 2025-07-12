@@ -1,0 +1,6 @@
+- Require pull request before merging
+- Require status checks to pass (CI, build, Safe proposal validation)
+- Require code review from 1 or 2 members
+- Require signed commits (optional but 🔥)
+- Require linear history (no merge commits)
+- Block force pushes and deletions
