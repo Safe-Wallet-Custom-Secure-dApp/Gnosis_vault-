@@ -1,0 +1,38 @@
+version: 2
+updates:
+  # ✅ Node.js/TypeScript deps
+  - package-ecosystem: "npm"
+    directory: "/" # Root of your project
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+
+  # ✅ GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/" # Root directory of workflows (usually .github/workflows)
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+  # ✅ Dockerfile base images (if you use Docker)
+  - package-ecosystem: "docker"
+    directory: "/" # Adjust if Dockerfile is in a subdir
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+    commit-message:
+      prefix: "build"
+      include: "scope"
+
+# Optional: ignore specific dependencies or pin to certain versions
+# ignore:
+#   - dependency-name: "lodash"
+#     versions:
+#       - "4.17.21"
