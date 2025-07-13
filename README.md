@@ -16,13 +16,8 @@ Powered by AppKit, Reown, and the collective will of crypto-native contributors 
 	•	🕵️‍♂️ Private by Default — Built with private GitHub repos and local GitHub Action runners.
 	•	💼 Enterprise-Ready — Designed for DAOs, crypto treasuries, and Web3 orgs who mean business.
 
-🧾 Latest Safe Proposals
-
 Live updates from your multisig vault. Every proposal is tracked, timestamped, and auditable.
 ## 🧾 Latest Safe Proposals
-
 <!--START_SAFE_PROPOSALS-->
-  
-Proposal feed loading… you know, automagically.
-
+  Proposal feed loading… you know, automagically.
 <!--END_SAFE_PROPOSALS-->
