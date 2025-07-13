@@ -1,15 +1,60 @@
-🔐 Gnosis Vault
+# 🔐 Gnosis Vault
 
-The Automation Layer for Secure, Multisig Capital Management
+**Your Multisig Ops. Supercharged. Now with Slack Integration.**
 
-Built for Web3 orgs, DAOs, and crypto treasuries with capital to protect and a need for speed.
-Gnosis Vault integrates your GitHub workflows, Safe{Wallet} ops, and Slack updates into a seamless governance pipeline.
-	•	🏛️ Multichain Safe{Wallet} automation (ETH, Arbitrum, Optimism, Base)
-	•	🔄 Proposal lifecycle from GitHub to on-chain
-	•	🔒 Reown-ready MPC signing support
-	•	📲 Slack for governance signals and proposal tracking
-	•	🧩 Modular frontend for audits, owners, and thresholds
-🧾 Latest Safe Proposals
+Gnosis Vault is a custom Safe{Wallet} automation suite purpose-built for modern Web3 teams.  
+Trigger Safe proposals from GitHub, approve with Reown, and get real-time updates piped straight into your Slack workspace.
+
+Designed for DAOs, protocols, and serious multisig operators who don't have time to click around dashboards.
+
+---
+
+## ✨ Features
+
+- 🌐 **Multichain Support** — Ethereum, Arbitrum, Optimism, Base, and more.
+- 🤖 **GitHub Actions Integration** — Proposals from PRs, issues, comments, or labels.
+- 💬 **Slack-First Notifications** — Proposal created, signed, rejected, or executed? You’ll know.
+- 🔐 **Reown MPC Integration** — Secure, programmable approvals. No private keys needed.
+- 🧩 **Dashboard Extensions** — Owner management, thresholds, transaction history, and signer views.
+- 🛡️ **Private by Default** — Runs in private GitHub repos with self-hosted runners.
+
+---
+
+## 🧾 Latest Safe Proposals
+
+> Live proposal feed pulled straight from your Safe(s). Updated via GitHub Actions.
+
 <!--START_SAFE_PROPOSALS-->
-Safe governance, streamed to Slack.
+_Proposal feed loading... stay tuned for fresh multisig fire._
 <!--END_SAFE_PROPOSALS-->
+
+---
+
+## 🛠️ Tech Stack
+
+- `@safe-global/protocol-kit` + `core-sdk`
+- Reown AppKit 🔮
+- GitHub Actions workflows
+- Slack Webhooks API
+- Vercel (or GitHub Pages) frontend hosting
+- TypeScript, Next.js, and ✨ magic
+
+---
+
+## 🧪 Example Slack Notification
+
+> _🧠 New Proposal Created on Arbitrum Safe:_  
+> `Transfer 0.5 ETH to 0xCafe...Babe`  
+> `Proposer: @thegoodeth`  
+> `Threshold: 2/3`  
+> `Link: https://gnosis-safe.io/app/...`
+
+---
+
+## 🧙 Want to Contribute?
+
+Clone, fork, submit a PR, or just drop a `/propose` in Slack.
+
+This vault is open source. But the security? Rock solid.
+
+---
