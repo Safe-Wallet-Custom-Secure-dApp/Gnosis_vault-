@@ -58,3 +58,10 @@ Clone, fork, submit a PR, or just drop a `/propose` in Slack.
 This vault is open source. But the security? Rock solid.
 
 ---
+## 🧾 Latest Safe Proposals
+
+<!--START_SAFE_PROPOSALS-->
+- 🔗 [Proposal #18 → 0xCafe...Babe | 0.42 ETH](https://app.safe.global/transactions/tx?id=...)
+- 🔗 [Proposal #17 → 0xDead...Beef | 3.21 ETH](...)
+- 🔗 [Proposal #16 → 0x1234...5678 | 1.00 ETH](...)
+<!--END_SAFE_PROPOSALS-->
