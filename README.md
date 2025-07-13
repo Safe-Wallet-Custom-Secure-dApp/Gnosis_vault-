@@ -22,5 +22,7 @@ Live updates from your multisig vault. Every proposal is tracked, timestamped, a
 ## 🧾 Latest Safe Proposals
 
 <!--START_SAFE_PROPOSALS-->
-<!-- Will be replaced with Safe proposal data -->
+  
+Proposal feed loading… you know, automagically.
+
 <!--END_SAFE_PROPOSALS-->
