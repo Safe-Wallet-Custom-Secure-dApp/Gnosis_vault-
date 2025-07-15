@@ -1,64 +1,145 @@
-# 🛡️ Gnosis Vault 🔐  
-### _Custom Safe Wallet Automation Suite for Secure, Private Multisig Ops_
+# 🔐 Gnosis-vault Organization README
 
-**Gnosis Vault** is your all-in-one, real-time **Safe{Wallet} control center**. Designed for DAOs, Web3 teams, and solo builders who want **automated, secure, and decentralized multisig flows** — with real-time GitHub syncs, Slack alerts, and Telegram access.
+> **🚫 PRIVATE: Internal Use Only — Visible to Gnosis-vault🔐 Members**
 
-> It's your **on-chain HQ**, built to operate like a fortress and move like a stealth jet.
-
----
-
-## 📦 Features That Slap
-
-- ✅ **GitHub Integration** — Auto-sync Safe proposals, CI/CD triggers, and README updates  
-- 🔔 **Slack Webhooks** — Get notified the second anything happens  
-- 📲 **Telegram Mini App** — Secure mobile interface for on-the-go control  
-- ⛓️ **Multi-chain Ready** — Ethereum + Arbitrum support  
-- 📖 **README Sync** — Keeps your repo updated with Safe activity automagically  
-- 🧠 **Proposal Intelligence** — Display the latest proposals and their status in your dashboard  
-- 🧰 **Built for Builders** — Clean, modular TypeScript + React + Next.js stack  
+This repository is the operational HQ of the `Safe-Wallet-Custom-Secure-dApp` project, governed and maintained by the Gnosis-vault🔐 org.
 
 ---
 
-## 🔐 Active Safes
+## 🧠 What Is This?
 
-| Chain       | Safe Address                                |
-|-------------|---------------------------------------------|
-| Ethereum    | `0x10A19e7eE7d7F8a52822f6817de8ea18204F2e4f` |
-| Ethereum    | `0xAfD5f60aA8eb4F488eAA0eF98c1C5B0645D9A0A0` |
-| Arbitrum    | `0x821f2b40d965b81202b181Aba1c7a380C49Ed675` |
+This is not just a multisig vault. This is:
 
-You can add other chains easily — it’s built to scale 💪
+- 🧰 A GitHub-native Safe coordination system
+- ⚙️ GitHub Actions + Reown-based proposal orchestration
+- 📡 Realtime alerts to Discord, Telegram, and frontend dashboards
+- 📊 Safe status synced into markdown + APIs
+- 🌐 Production dashboards hosted via Vercel + Replit
+- 🧪 DevOps logic to manage proposals, signers, and frontend uptime
 
----
-
-## 📖 Live Proposal Feed
-
-Here’s where real Safe activity gets posted on autopilot.  
-Latest proposals update your README with no hands:
-
-<!--START_SAFE_PROPOSALS-->
-_Proposal data will sync here automatically..._
-<!--END_SAFE_PROPOSALS-->
+Built for humans. Powered by code. Backed by vault-grade security.
 
 ---
 
-## ⚙️ Stack Breakdown
+## ✅ Vault Status
 
-- **Frontend**: Next.js, React, TypeScript  
-- **Blockchain**: `ethers`, `@safe-global/safe-core-sdk`, `@safe-global/protocol-kit`  
-- **Automation**: GitHub Actions, Vercel CLI  
-- **Notifications**: Slack Webhooks, Telegram Mini App  
-- **Secrets**: `.env`-driven config for Safe addresses, webhooks, GitHub repos  
+| Role | Safe Address | Network | Balance | Threshold |
+|------|--------------|---------|---------|-----------|
+| Legacy Vault | `0x10A1...2e4f` | Ethereum | `{{balance_legacy}}` | `{{threshold_legacy}}` |
+| Primary Org Vault | `0x821f...Ed675` | Arbitrum | `{{balance_primary}}` | `{{threshold_primary}}` |
+| Signer Key Vault | `0xAfD5...A0A0` | Ethereum | `{{balance_signer}}` | `{{threshold_signer}}` |
+
+_Last synced: `{{last_updated}}`_
 
 ---
 
-## 🚀 Quickstart
+## 🔁 Live Proposals
 
-### 🔧 1. Setup `.env` file
+These are auto-fetched daily via GitHub Actions.
 
-```env
+| Date | Description | Status | Safe |
+|------|-------------|--------|------|
+{{proposals_table}}
 
-REACT_APP_SAFE_ADDRESS= 0x821f2b40d965b81202b181Aba1c7a380C49Ed675
-REACT_APP_ARBISCAN_API_KEY= Y9Y7RS6TB2X3A8UDZ4Q6YK39UDK1IDQKUT
-REACT_APP_GITHUB_REPO=Safe-Wallet-Custom-Secure-dApp/Gnosis_vault-
-REACT_APP_SLACK_WEBHOOK= https://hooks.slack.com/services/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
+📂 [View full proposal history → `.github-private/logs/safe-proposals.json`](.github-private/logs/safe-proposals.json)
+
+---
+
+## 🌐 Frontend Environments
+
+| Platform | Link | Description |
+|----------|------|-------------|
+| 🧪 Replit | [Gnosis-vault Dev](https://replit.com/@thegoodeth12/Gnosis-vault) | Dev testing UI for Safe proposals |
+| 🚀 Vercel | [chatgtp-bot-reown.xyz](https://chatgtp-bot-reown.xyz) | Production multichain Safe dashboard |
+| 📊 Reown AppKit | [AppKit Interface](https://appkit-lab.reown.com/library/multichain-all) | Safe x Reown integration template |
+
+---
+
+## 📶 System Health & Status
+
+| Component | Badge | Status |
+|-----------|-------|--------|
+| GitHub Actions | ![CI](https://github.com/Safe-Wallet-Custom-Secure-dApp/.github-private/actions/workflows/update-readme.yml/badge.svg) | ✅ Daily sync running |
+| Vercel UI | ![Vercel](https://img.shields.io/badge/vercel-online-brightgreen?style=flat-square&logo=vercel) | ✅ Domain resolves |
+| Replit Preview | ![Replit](https://img.shields.io/badge/replit-active-blue?style=flat-square&logo=replit) | ✅ Manually available |
+| Safe Frontend Status | [`status.json`](status.json) | ✅ Generated & monitored |
+
+🧪 Uptime can be tracked via `/status` route (coming soon).
+
+---
+
+## 🧑‍💼 Org Roles & Workflow
+
+### 🧭 Members
+- `@thegoodeth12` – Vault Architect, Infra
+- `@gnosisbot` – GitHub Bot, Automation
+- `@Reown` – Signing interface
+
+### 🛠 Onboarding Steps
+1. Accept GitHub org invite.
+2. Get added to Safe signers.
+3. Install [Reown](https://reown.com).
+4. Join Discord & Telegram for alerts.
+5. Approve transactions from UI or GitHub.
+
+---
+
+## 🧾 Workflow Structure
+
+| File/Dir | Purpose |
+|----------|---------|
+| `scripts/update-readme.ts` | Injects balances + threshold into this README |
+| `scripts/fetch-proposals.ts` | Pulls Safe proposals from Arbitrum/Ethereum |
+| `.github/workflows/update-readme.yml` | GitHub Action to sync every 24h |
+| `config/safes.json` | Source of truth for Safe metadata |
+| `logs/safe-proposals.json` | Proposal log history |
+| `status.json` | Tracks frontend + GitHub + Safe uptime |
+
+---
+
+## 🤖 Integrations
+
+- 🟣 **Discord**: Pings on new proposals, confirmation alerts  
+- 🟦 **GitHub App**: Issues/PRs can create Safe proposals  
+- 🔐 **Reown**: Secure MPC signing — no keys needed  
+- 🟡 **Slack**: (Coming Soon)  
+- 🚀 **Telegram Bot**: [@vault_signer_bot](#) (Beta)  
+- 🌐 **API Ready**: Turn README & status into a live endpoint
+
+---
+
+## 👮 Rules of the Vault
+
+- ✅ 2FA required for all contributors  
+- 🚫 Never commit secrets, private keys, or RPC URLs  
+- 🗳️ All proposals must flow through PR/issue trigger  
+- 🔐 Only Reown-verified signers can confirm transactions  
+- 🧼 `main` = clean code only — use `dev` for draft logic
+
+---
+
+## 🧭 Roadmap — Q3 / Q4
+
+| Feature | Status |
+|---------|--------|
+| ✅ Proposal table in README | Done |
+| ✅ GitHub Action CI | Done |
+| ✅ Live signer dashboard | Done |
+| ✅ Replit/Vercel deploys | Done |
+| 🔜 Telegram signer approval | In beta |
+| 🔜 Safe batch proposal builder | Planned |
+| 🔜 `/status` JSON endpoint | Planned |
+| 🔜 Slack bot notifications | Planned |
+| 🔜 Live PR-to-Proposal comment automation | Building |
+
+---
+
+## 🧙 Final Words
+
+> “A vault is only as powerful as the people who coordinate it.”
+
+This README is more than documentation — it's the **brainstem** of your multisig infrastructure. Automated. Synced. Alive.
+
+Built with 🧠 by `@thegoodeth12`  
+Maintained by the `Gnosis-vault🔐` org  
+Powered by Safe, Reown, GitHub, Discord, and DevOps sauce 🌐
