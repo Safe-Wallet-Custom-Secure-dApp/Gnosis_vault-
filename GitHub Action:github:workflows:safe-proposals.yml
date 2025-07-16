@@ -1,0 +1,56 @@
+name: Safe Proposal via GitHub
+
+on:
+  pull_request:
+    types: [closed]
+  issues:
+    types: [labeled]
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    if: github.event.issue.labels.*.name contains env.GITHUB_TRIGGER_LABEL || github.event.pull_request.merged == true
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with: node-version: "18"
+
+      - name: Install deps
+        run: npm install
+
+      - name: Create Safe proposal
+        env:
+          SAFE_ADDRESS: ${{ secrets.SAFE_ADDRESS }}
+          SIGNER_KEY: ${{ secrets.SIGNER_KEY }}
+          GITHUB_EVENT: ${{ toJson(github.event) }}
+        run: |
+          node << 'EOF'
+          const { SafeFactory, SafeAccountConfig } = require("@safe-global/safe-core-sdk");
+          const { ethers } = require("ethers");
+          (async () => {
+            const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
+            const signer = new ethers.Wallet(process.env.SIGNER_KEY, provider);
+            const safeFactory = await SafeFactory.create({ ethAdapter: new (require("@safe-global/safe-ethers-lib").SafeEthersLib)({ ethers, signer }) });
+            const safeSdk = await safeFactory.connectSafe(process.env.SAFE_ADDRESS);
+            const tx = {
+              to: process.env.SAFE_ADDRESS,
+              value: "0",
+              data: "0x",
+            };
+            const safeTransaction = await safeSdk.createTransaction({ safeTransactionData: tx });
+            await safeSdk.signTransaction(safeTransaction);
+            const response = await safeSdk.proposeTransaction({ safeTransaction, safeTxHash: await safeSdk.getTransactionHash(safeTransaction), options: { txServiceUrl: process.env.SAFE_TX_SERVICE_URL }});
+            console.log("Proposal created:", response);
+          })();
+          EOF
+
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -H "Content-Type: application/json" \
+               -d "{\"content\": \"New Safe proposal created from PR/label. <Approval link here>\"}" \
+               $DISCORD_WEBHOOK

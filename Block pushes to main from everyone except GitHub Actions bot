@@ -1,0 +1,3 @@
+- Target: main
+- Allow push from: github-actions[bot]
+- Block all manual pushes

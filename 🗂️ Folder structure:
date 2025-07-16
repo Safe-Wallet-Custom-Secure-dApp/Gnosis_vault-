@@ -1,0 +1,10 @@
+.github-private/
+├── scripts/
+│   └── setup-rulesets.ts
+├── rulesets/
+│   ├── main-protection.json
+│   ├── sensitive-files.json
+│   ├── tag-protection.json
+│   └── demo-repo-light.json
+├── package.json
+└── .env   # Optional for storing token

@@ -1,0 +1,11 @@
+automatisch-appkit/
+├── .github/
+│   └── workflows/
+│       └── safe-proposals.yml
+├── config/
+│   └── index.js
+├── pages/
+│   └── _app.js
+│   └── index.js
+├── README.md
+└── package.json

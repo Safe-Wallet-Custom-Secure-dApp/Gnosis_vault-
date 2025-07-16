@@ -1,0 +1,684 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Safe owners signer </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+	margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-default_background {
+	color: rgba(50, 48, 44, 1);
+}
+.highlight-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.highlight-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-default_background {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray_background {
+	background: rgba(248, 248, 247, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(248, 243, 252, 1);
+}
+.block-color-pink_background {
+	background: rgba(252, 241, 246, 1);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: undefined; }
+.select-value-color-pink { background-color: rgba(225, 136, 179, 0.27); }
+.select-value-color-purple { background-color: rgba(168, 129, 197, 0.27); }
+.select-value-color-green { background-color: rgba(123, 183, 129, 0.27); }
+.select-value-color-gray { background-color: rgba(84, 72, 49, 0.15); }
+.select-value-color-transparentGray { background-color: undefined; }
+.select-value-color-translucentGray { background-color: undefined; }
+.select-value-color-orange { background-color: rgba(224, 124, 57, 0.27); }
+.select-value-color-brown { background-color: rgba(210, 162, 141, 0.35); }
+.select-value-color-red { background-color: rgba(244, 171, 159, 0.4); }
+.select-value-color-yellow { background-color: rgba(236, 191, 66, 0.39); }
+.select-value-color-blue { background-color: rgba(93, 165, 206, 0.27); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1dcacc0b-fccb-8058-b123-d61bee957f77" class="page sans"><header><h1 class="page-title">Safe owners signer </h1><p class="page-description"></p></header><div class="page-body"><p id="1dcacc0b-fccb-81e3-ab56-dc7b9e3d9f22" class="">{&quot;version&quot;:&quot;3.0&quot;,&quot;data&quot;:{&quot;addedSafes&quot;:{&quot;1&quot;:{&quot;0x52f4A8b351e6a7d1ecA8FBF398910ef648a71802&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5cc146F5Bf5243ebB715F4D545343299D2E5d213&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5824bc16A730AA05372f06Af67f238992459dA4B&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3},&quot;0xfd639f49Da6cadc98f01B60900C8BE30C38c4B27&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:1},&quot;0x1BedEd450DA0097837b8c540d0488FE351B6BA2B&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x54146f63261231bddaC5b9C0289bE416c235189E&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x54146f63261231bddaC5b9C0289bE416c235189E&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x0EFcCBb9E2C09Ea29551879bd9Da32362b32fc89&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x62bd89679a936e354607309c6A1F41b8167FFae9&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x7C56e77Cf45A16f01497C6E713AFee77313EdCe9&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x10A19e7eE7d7F8a52822f6817de8ea18204F2e4f&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x35914E255c14eD309AF4029d8E007acc8f17EbBd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:1},&quot;0x3C58345B4d35e68CB1e7be5A90623Ca2F4BA42F7&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5D7de07FD214f0Ad436E808B0fFe338fCa02043f&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x32c0a4c8Cb0d937c5E2F188a752ec2f591627b39&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x13089220cd2a3e4A49f253BdC03Ab2E110cDCa5e&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x34B5F98984b1F61BCbFe07eEEcf6d82CA0125537&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x1a71CF47e6afBc19E6b021856cc46fB9899F092E&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3},&quot;0x4ba1A50Aecba077Acdf4625BF9aDB3Fe964eEA17&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:1},&quot;0x6DF5e7b236a4F14e08C27E09202B4d1865905e9b&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x933Ef4bbbbAB8eDB3e6EDFa4a90a55465A7c034D&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEa1d7b2F28Df264D0c6F3eC479C62B904F3bd62d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xa521E425f37aCC731651565B41Ce3E5022274F4F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x19fD99Bc64A2B7802a1B6FbA4Ebb3B6f4d165657&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5B1cD3eff1e8458Bd8d446d3503752359151Dadc&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x1a27881E041737bc7eF5c616A8aF08Ec7E51Db40&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:4},&quot;0x6dFFa3f2Bb14b7780F1D31BD6BcAf38eCC00A36D&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x80B1D1299602aedc567F4DC8db19076d186C6558&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x7A8fAe9862C0D77730ceC45039B229c5C24F2674&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5824bc16A730AA05372f06Af67f238992459dA4B&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5cc146F5Bf5243ebB715F4D545343299D2E5d213&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3},&quot;0x875A01EB77a875A3e0F53e9283F4456be471B8dD&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5AC840Fb4738C36467aC673E87aaFa26C9397dcd&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x985DCF420BD2d580C1C3738767cbDE6E042551b2&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5B1cD3eff1e8458Bd8d446d3503752359151Dadc&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x1a27881E041737bc7eF5c616A8aF08Ec7E51Db40&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x19fD99Bc64A2B7802a1B6FbA4Ebb3B6f4d165657&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xa521E425f37aCC731651565B41Ce3E5022274F4F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEa1d7b2F28Df264D0c6F3eC479C62B904F3bd62d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:4},&quot;0xe66242EA57b2546d63f8e710eBfa3194a3827588&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xA8C9b09C31e61FA8687058CABe06Fe8AE05b61c0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x511A5D6a2D2DeB86B08fe628D3A5C08211B1Fbd2&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xBEdBBaf3635c85c86042DaEf3C8CE80dbe95FebD&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2}},&quot;10&quot;:{&quot;0x1BedEd450DA0097837b8c540d0488FE351B6BA2B&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x54146f63261231bddaC5b9C0289bE416c235189E&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x80B1D1299602aedc567F4DC8db19076d186C6558&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x62bd89679a936e354607309c6A1F41b8167FFae9&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x7C56e77Cf45A16f01497C6E713AFee77313EdCe9&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x043f9687842771b3dF8852c1E9801DCAeED3f6bc&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x3De660DD638D3C34A64e24Ef8EbC3Cefc8cbFAD8&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5cc146F5Bf5243ebB715F4D545343299D2E5d213&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5824bc16A730AA05372f06Af67f238992459dA4B&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3}},&quot;56&quot;:{&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x58099b94e660bBe19848547F6c5d76DcA7282E45&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x478eC43c6867c2884f87B21c164f1fD1308bD9a3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0xABEaB52a926302C02b4e4B36f902Bc3cE5E5636C&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xEa1d7b2F28Df264D0c6F3eC479C62B904F3bd62d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x009d13E9bEC94Bf16791098CE4E5C168D27A9f07&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0edEFA91e99da1eDDD1372c1743A63B1595fC413&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xFBB3744Fe770Dc32A7840de2068c8A1e4F60FD3d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x329c54289Ff5D6B7b7daE13592C6B1EDA1543eD4&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x34B5F98984b1F61BCbFe07eEEcf6d82CA0125537&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9633b57d0FB2A1657d19525c8eD5956E6924A912&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xDBafa316C236c090e7633Cf7CF5EbDd2947B50A1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x933Ef4bbbbAB8eDB3e6EDFa4a90a55465A7c034D&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3}},&quot;100&quot;:{&quot;0x4f22C2784Cbd2B24a172566491Ee73fee1A63c2e&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x478eC43c6867c2884f87B21c164f1fD1308bD9a3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x80B1D1299602aedc567F4DC8db19076d186C6558&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x0EFcCBb9E2C09Ea29551879bd9Da32362b32fc89&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x2a5AEcE0bb9EfFD7608213AE1745873385515c18&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0xF41B19F26608Beafb80eb8B699b00e23E7d9c2bC&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x478eC43c6867c2884f87B21c164f1fD1308bD9a3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;137&quot;:{&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x58f1fA7054DeA054Ea84fE461506753c9bf2df2D&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x5B1cD3eff1e8458Bd8d446d3503752359151Dadc&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEC67267a1309d88470dbFaC183d0544d9D5d480C&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3},&quot;0xeE071f4B516F69a1603dA393CdE8e76C40E5Be85&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;146&quot;:{&quot;0x4f22C2784Cbd2B24a172566491Ee73fee1A63c2e&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;1101&quot;:{&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x2f237e7643a3bF6Ef265dd6FCBcd26a7Cc38dbAa&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0xDAe41b4c5815Be4D9Bd27B806cCB3Cd8Bba694F4&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x512fce9B07Ce64590849115EE6B32fd40eC0f5F3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x478eC43c6867c2884f87B21c164f1fD1308bD9a3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;8453&quot;:{&quot;0xfd639f49Da6cadc98f01B60900C8BE30C38c4B27&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:1},&quot;0x1BedEd450DA0097837b8c540d0488FE351B6BA2B&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x54146f63261231bddaC5b9C0289bE416c235189E&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x80B1D1299602aedc567F4DC8db19076d186C6558&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x7C56e77Cf45A16f01497C6E713AFee77313EdCe9&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0xC40DCFB13651e64C8551007aa57F9260827B6462&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;42161&quot;:{&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x80B1D1299602aedc567F4DC8db19076d186C6558&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0x7C56e77Cf45A16f01497C6E713AFee77313EdCe9&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x2A8C6E97F59860dAA5eDeDa7488B7b54CC98594e&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0xaF23DC5983230E9eEAf93280e312e57539D098D0&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0xd5d9D130Af398b8c8948FAF9ebc4c3Ca416b6378&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5824bc16A730AA05372f06Af67f238992459dA4B&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x09DB122Cf97cd60a51e5d5E60f361fC034F4F1f5&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x4b5d06B309c32C0c8e73585358cF72E7a6E593F6&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3},&quot;0xfe98240ddAEDF78E278C28F1EdD690ee1a774e66&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xEa1d7b2F28Df264D0c6F3eC479C62B904F3bd62d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x009d13E9bEC94Bf16791098CE4E5C168D27A9f07&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xDC557d2cF63754B10882fD64DbDE34188db04bb9&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0edEFA91e99da1eDDD1372c1743A63B1595fC413&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9633b57d0FB2A1657d19525c8eD5956E6924A912&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xFBB3744Fe770Dc32A7840de2068c8A1e4F60FD3d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x329c54289Ff5D6B7b7daE13592C6B1EDA1543eD4&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x34B5F98984b1F61BCbFe07eEEcf6d82CA0125537&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}},&quot;43114&quot;:{&quot;0x81037e7bE71bCE9591De0c54BB485aD3e048B8DE&quot;:{&quot;owners&quot;:[],&quot;threshold&quot;:0},&quot;0x17b11FF13e2d7bAb2648182dFD1f1cfa0E4C7cf3&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0xbcf751dBfe314Ee96A660EFA2Fcb259CBc364c29&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x11761c7b08287d9489CD84C04DF6852F5C07107b&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6},&quot;0x1Bf4C97384e7BDc609017305Edb23Fd28c13E76a&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x5cc146F5Bf5243ebB715F4D545343299D2E5d213&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEC67267a1309d88470dbFaC183d0544d9D5d480C&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:2},&quot;0xC8D8ca2B2833ADAA529cDC20e245479373912DF9&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3b4512e84017EC2dbc24e97006b47318807E1d3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEa1d7b2F28Df264D0c6F3eC479C62B904F3bd62d&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xEC67267a1309d88470dbFaC183d0544d9D5d480C&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xa521E425f37aCC731651565B41Ce3E5022274F4F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:3}},&quot;59144&quot;:{&quot;0x4f22C2784Cbd2B24a172566491Ee73fee1A63c2e&quot;:{&quot;owners&quot;:[{&quot;value&quot;:&quot;0x3ABDc84Dd15b0058B281D7e26CCc3932cfb268aA&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x285b7EEa81a5B66B62e7276a24c1e0F83F7409c1&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x59693BA1A5764e087CE166ac0E0085Fc071B9ea7&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xcf4fF1e03830D692F52EB094c52A5A6A2181Ab3F&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xA39a62304d8d43B35114ad7bd1258B0E50e139b3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x0951FF0835302929d6c0162b3d2495A85e38ec3A&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x478eC43c6867c2884f87B21c164f1fD1308bD9a3&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9F7dfAb2222A473284205cdDF08a677726d786A0&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x9BE6ff2A1D5139Eda96339E2644dC1F05d803600&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0x823DF0278e4998cD0D06FB857fBD51e85b18A250&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null},{&quot;value&quot;:&quot;0xAc1aA53108712d7f38093A67d380aD54B562a650&quot;,&quot;name&quot;:null,&quot;logoUri&quot;:null}],&quot;threshold&quot;:6}}},&quot;undeployedSafes&quot;:{},&quot;visitedSafes&quot;:{&quot;1&quot;:{&quot;0x1BedEd450DA0097837b8c540d0488FE351B6BA2B&quot;:{&quot;lastVisited&quot;:1745196230463},&quot;0xfd639f49Da6cadc98f01B60900C8BE30C38c4B27&quot;:{&quot;lastVisited&quot;:1745196409914},&quot;0x52f4A8b351e6a7d1ecA8FBF398910ef648a71802&quot;:{&quot;lastVisited&quot;:1745196823701}},&quot;10&quot;:{&quot;0x1BedEd450DA0097837b8c540d0488FE351B6BA2B&quot;:{&quot;lastVisited&quot;:1745196325466}},&quot;100&quot;:{&quot;0xB1125197955d26988264EB90B4b1CA6eB1b33B97&quot;:{&quot;lastVisited&quot;:1745195701886},&quot;0x08Bd22f5b9397eB9e6787d33949C39E825caB5dd&quot;:{&quot;lastVisited&quot;:1745195744535}},&quot;146&quot;:{&quot;0x4f22C2784Cbd2B24a172566491Ee73fee1A63c2e&quot;:{&quot;lastVisited&quot;:1745196550737}}}}}</p><figure id="1dcacc0b-fccb-817e-b12d-de7ebe61f277"><div class="source"><a href="Safe%20owners%20signer%201dcacc0bfccb8058b123d61bee957f77/safe-2025-04-21.json">attachment:59a76957-f261-4dc2-81da-940949dd0003:safe-2025-04-21.json</a></div></figure><figure id="1dcacc0b-fccb-806c-9fed-e4668815e029" class="link-to-page"><a href="Safe%20owners%20signer%201dcacc0bfccb8058b123d61bee957f77/Untitled%201dcacc0bfccb806c9fede4668815e029.html">Untitled</a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

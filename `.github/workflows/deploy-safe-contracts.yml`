@@ -1,0 +1,40 @@
+name: Deploy Safe Contracts
+
+on:
+  workflow_dispatch:
+    inputs:
+      network:
+        description: 'Network to deploy to (e.g., mainnet, goerli)'
+        required: true
+        default: 'goerli'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: pnpm install
+
+    # Step 4: Deploy the contracts
+    - name: Deploy Safe Contracts
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        RPC_URL: ${{ secrets.RPC_URL }}
+      run: |
+        pnpm run deploy-all
+
+    # Optional Step 5: Verify deployment
+    - name: Verify Deployment
+      run: node scripts/verify-deployment.js

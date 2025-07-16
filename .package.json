@@ -1,0 +1,3 @@
+"scripts": {
+  "apply:rulesets": "ts-node ./scripts/setup-rulesets.ts"
+}

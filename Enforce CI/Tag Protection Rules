@@ -1,0 +1,3 @@
+- Protect tags like v*
+- Block tag deletion
+- Require signed tags

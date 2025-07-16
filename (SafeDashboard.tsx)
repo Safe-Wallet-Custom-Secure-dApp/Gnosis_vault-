@@ -1,0 +1,24 @@
+// components/SafeDashboard.tsx
+'use client'
+
+import React, { useEffect, useState } from 'react'
+import { getSafeDashboardData } from '../dashboard-data'
+
+export default function SafeDashboard() {
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    getSafeDashboardData().then(setData)
+  }, [])
+
+  if (!data) return <p>Loading Safe data...</p>
+
+  return (
+    <div className="dashboard">
+      <h2>Safe Wallet Overview 🔐</h2>
+      <p><strong>Threshold:</strong> {data.threshold}</p>
+      <p><strong>Owners:</strong> {data.owners.join(', ')}</p>
+      <p><strong>ETH Balance:</strong> {data.balance} ETH</p>
+    </div>
+  )
+}
