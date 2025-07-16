@@ -1,20 +1,18 @@
 {
-  "name": "safe-contract-deployment",
+  "name": "gnosis-vault-frontend",
   "version": "1.0.0",
-  "description": "Deployment scripts for Safe contracts",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "deploy-safe": "node scripts/deploy-safe.js",
-    "deploy-all": "node scripts/deploy-all-safes.js",
-    "update-readme": "node scripts/update-readme.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
   "dependencies": {
-    "@safe-global/safe-core-sdk": "^3.3.5",
-    "@safe-global/protocol-kit": "^1.1.1",
-    "ethers": "^6.7.0",
-    "dotenv": "^16.0.3"
-  },
-  "devDependencies": {},
-  "author": "thegoodeth12",
-  "license": "MIT"
+    "next": "^14.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@safe-global/protocol-kit": "^1.1.0",
+    "@safe-global/types-kit": "^1.0.0",
+    ...
+  }
 }
