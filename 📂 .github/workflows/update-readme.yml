@@ -1,0 +1,36 @@
+name: 🔄 Update README with Safe Proposals
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *' # Runs every 30 mins (adjust if needed)
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 📦 Install Dependencies
+        run: |
+          npm install axios ethers dotenv
+
+      - name: 🛠️ Run Update Script
+        run: node .github/scripts/update-proposals.js
+
+      - name: 🚀 Commit & Push README
+        run: |
+          git config user.name 'Gnosis Vault Bot 🤖'
+          git config user.email 'actions@github.com'
+          git add README.md
+          git commit -m "📥 Auto-update Safe proposals in README"
+          git push
