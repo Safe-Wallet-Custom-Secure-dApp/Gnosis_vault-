@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "flip-readme": "ts-node scripts/generate-upside-down.ts",
+    "update-readme": "npm run flip-readme && git add README.upside-down.md && git commit -m 'chore(readme): manual flip 📄🔄' || echo 'No changes'",
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "start": "ts-node index.ts",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "clean": "rm -rf dist node_modules && echo '🧹 Cleaned.'"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  }
+}
