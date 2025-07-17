@@ -1,17 +1,12 @@
 {
-  "scripts": {
-    "flip-readme": "ts-node scripts/generate-upside-down.ts",
-    "update-readme": "npm run flip-readme && git add README.upside-down.md && git commit -m 'chore(readme): manual flip 📄🔄' || echo 'No changes'",
-    "dev": "ts-node-dev --respawn --transpile-only index.ts",
-    "start": "ts-node index.ts",
-    "lint": "eslint . --ext .ts",
-    "format": "prettier --write .",
-    "typecheck": "tsc --noEmit",
-    "build": "tsc",
-    "clean": "rm -rf dist node_modules && echo '🧹 Cleaned.'"
+  "browser": {
+    "./crypto/crypto.js": "./crypto/crypto-browser.js",
+    "./providers/provider-ipcsocket.js": "./providers/provider-ipcsocket-browser.js",
+    "./providers/ws.js": "./providers/ws-browser.js",
+    "./utils/base64.js": "./utils/base64-browser.js",
+    "./utils/geturl.js": "./utils/geturl-browser.js",
+    "./wordlists/wordlists.js": "./wordlists/wordlists-browser.js"
   },
-  "devDependencies": {
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.0"
-  }
+  "sideEffects": false,
+  "type": "commonjs"
 }
