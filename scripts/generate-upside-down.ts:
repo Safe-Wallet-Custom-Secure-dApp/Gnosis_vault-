@@ -1,0 +1,23 @@
+import { readFileSync, writeFileSync } from "fs";
+import path from "path";
+
+const INPUT = path.resolve("README.md");
+const OUTPUT = path.resolve("README.upside-down.md");
+
+function flipMarkdown(content: string): string {
+  const sections = content
+    .split(/\n(?=## )/g) // Split at each H2 section
+    .reverse()
+    .join("\n");
+
+  return `<!-- AUTO-GENERATED FLIPPED README -->\n\n${sections}`;
+}
+
+function main() {
+  const original = readFileSync(INPUT, "utf-8");
+  const flipped = flipMarkdown(original);
+  writeFileSync(OUTPUT, flipped, "utf-8");
+  console.log("✅ Flipped README saved to README.upside-down.md");
+}
+
+main();
