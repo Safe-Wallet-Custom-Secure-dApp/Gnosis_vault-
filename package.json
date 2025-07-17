@@ -40,3 +40,8 @@
     ]
   }
 }
+{
+  "scripts": {
+    "flip-readme": "ts-node scripts/generate-upside-down.ts"
+  }
+}
