@@ -1,3 +1,6 @@
 "scripts": {
   "apply:rulesets": "ts-node ./scripts/setup-rulesets.ts"
 }
+"scripts": {
+  "flip-readme": "ts-node scripts/generate-upside-down.ts"
+}
