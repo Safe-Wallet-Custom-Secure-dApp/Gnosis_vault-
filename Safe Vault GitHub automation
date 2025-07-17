@@ -1,0 +1,13 @@
+Gnosis_vault-/
+├── .github/
+│   └── workflows/
+│       └── update-readme.yml          ✅ Auto sync + flip README
+├── scripts/
+│   └── generate-upside-down.ts       ✅ Flips README content
+├── README.md                         ✅ Main doc
+├── README.upside-down.md            ✅ Auto-generated (should be committed once)
+├── package.json                      ✅ Has all scripts preconfigured
+├── tsconfig.json                     ✅ TypeScript config
+├── .eslintrc                         ✅ Optional lint rules
+├── .prettierrc                       ✅ Optional formatting
+└── node_modules/                     🚫 Ignore in Git (from install)
