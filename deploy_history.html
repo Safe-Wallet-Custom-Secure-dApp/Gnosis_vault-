@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Deployment History - Vercel Deployment Manager{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-0">
+                        <i data-feather="clock" class="me-2"></i>
+                        Deployment History
+                    </h1>
+                    <p class="text-muted">Complete history of all deployments</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                        <i data-feather="arrow-left" class="me-2"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deployments Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i data-feather="list" class="me-2"></i>
+                        All Deployments
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if deployments and deployments.items %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Status</th>
+                                        <th>Triggered</th>
+                                        <th>Completed</th>
+                                        <th>Duration</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for deployment in deployments.items %}
+                                    <tr>
+                                        <td>
+                                            <code>#{{ deployment.id }}</code>
+                                            {% if deployment.deployment_id %}
+                                                <br>
+                                                <small class="text-muted">{{ deployment.deployment_id[:8] }}...</small>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if deployment.status == 'success' %}
+                                                <span class="badge bg-success">
+                                                    <i data-feather="check"></i>
+                                                    Success
+                                                </span>
+                                            {% elif deployment.status == 'failed' %}
+                                                <span class="badge bg-danger">
+                                                    <i data-feather="x"></i>
+                                                    Failed
+                                                </span>
+                                            {% elif deployment.status == 'building' %}
+                                                <span class="badge bg-warning">
+                                                    <i data-feather="loader" class="spinning"></i>
+                                                    Building
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">
+                                                    <i data-feather="clock"></i>
+                                                    {{ deployment.status.title() }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span>{{ deployment.trigger_time.strftime('%Y-%m-%d') }}</span>
+                                            <br>
+                                            <small class="text-muted">{{ deployment.trigger_time.strftime('%H:%M:%S') }}</small>
+                                        </td>
+                                        <td>
+                                            {% if deployment.completion_time %}
+                                                <span>{{ deployment.completion_time.strftime('%Y-%m-%d') }}</span>
+                                                <br>
+                                                <small class="text-muted">{{ deployment.completion_time.strftime('%H:%M:%S') }}</small>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if deployment.completion_time %}
+                                                {% set duration = (deployment.completion_time - deployment.trigger_time).total_seconds() %}
+                                                <span>{{ "%.1f"|format(duration) }}s</span>
+                                            {% elif deployment.status == 'building' %}
+                                                <span class="text-warning">In progress...</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                {% if deployment.vercel_url %}
+                                                    <a href="{{ deployment.vercel_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                        <i data-feather="external-link"></i>
+                                                        View
+                                                    </a>
+                                                {% endif %}
+                                                {% if deployment.error_message %}
+                                                    <button class="btn btn-outline-danger btn-sm" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#errorModal"
+                                                            data-error="{{ deployment.error_message }}"
+                                                            data-deployment-id="{{ deployment.id }}">
+                                                        <i data-feather="alert-circle"></i>
+                                                        Error
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if deployments.pages > 1 %}
+                        <nav aria-label="Deployment history pagination">
+                            <ul class="pagination justify-content-center mt-4">
+                                {% if deployments.has_prev %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('deploy_history', page=deployments.prev_num) }}">
+                                            <i data-feather="chevron-left"></i>
+                                            Previous
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                
+                                {% for page_num in deployments.iter_pages() %}
+                                    {% if page_num %}
+                                        {% if page_num != deployments.page %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="{{ url_for('deploy_history', page=page_num) }}">{{ page_num }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item active">
+                                                <span class="page-link">{{ page_num }}</span>
+                                            </li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if deployments.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ url_for('deploy_history', page=deployments.next_num) }}">
+                                            Next
+                                            <i data-feather="chevron-right"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                        {% endif %}
+                        
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i data-feather="cloud" class="text-muted mb-3" style="width: 3rem; height: 3rem;"></i>
+                            <p class="text-muted">No deployments found.</p>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                                <i data-feather="play" class="me-2"></i>
+                                Trigger First Deployment
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Error Details Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i data-feather="alert-circle" class="me-2 text-danger"></i>
+                    Deployment Error Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <strong>Deployment ID:</strong> <span id="error-deployment-id"></span>
+                </div>
+                <div>
+                    <strong>Error Message:</strong>
+                    <pre class="bg-dark p-3 rounded mt-2" id="error-message"></pre>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Handle error modal
+    var errorModal = document.getElementById('errorModal');
+    errorModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var error = button.getAttribute('data-error');
+        var deploymentId = button.getAttribute('data-deployment-id');
+        
+        document.getElementById('error-deployment-id').textContent = '#' + deploymentId;
+        document.getElementById('error-message').textContent = error;
+    });
+
+    // Re-initialize feather icons
+    feather.replace();
+</script>
+{% endblock %}

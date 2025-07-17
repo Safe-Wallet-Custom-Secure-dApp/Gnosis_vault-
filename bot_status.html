@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}Bot Management - Vercel Deployment Manager{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-0">
+                        <i data-feather="message-circle" class="me-2"></i>
+                        Telegram Bot Management
+                    </h1>
+                    <p class="text-muted">Manage your Telegram bot for remote deployments</p>
+                </div>
+                <div>
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary">
+                        <i data-feather="arrow-left" class="me-2"></i>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bot Status Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i data-feather="activity" class="me-2"></i>
+                        Bot Status
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i data-feather="settings" class="text-info" style="width: 2rem; height: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Configuration Status</h6>
+                                    <small class="text-muted">
+                                        Bot Token: 
+                                        {% if bot_configured %}
+                                            <span class="badge bg-success">Configured</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Missing</span>
+                                        {% endif %}
+                                    </small><br>
+                                    <small class="text-muted">
+                                        Webhook URL: 
+                                        {% if webhook_configured %}
+                                            <span class="badge bg-success">Configured</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">Missing</span>
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="me-3">
+                                    <i data-feather="power" class="text-primary" style="width: 2rem; height: 2rem;"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Runtime Status</h6>
+                                    <small class="text-muted">
+                                        Status: <span id="bot-status-badge" class="badge bg-secondary">Checking...</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-flex gap-2">
+                        <button id="start-bot-btn" class="btn btn-success" {% if not bot_configured %}disabled{% endif %}>
+                            <i data-feather="play" class="me-2"></i>
+                            Start Bot
+                        </button>
+                        <button id="stop-bot-btn" class="btn btn-danger">
+                            <i data-feather="stop" class="me-2"></i>
+                            Stop Bot
+                        </button>
+                        <button id="refresh-status-btn" class="btn btn-outline-secondary">
+                            <i data-feather="refresh-cw" class="me-2"></i>
+                            Refresh Status
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Configuration Help -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i data-feather="help-circle" class="me-2"></i>
+                        Bot Setup Instructions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if not bot_configured %}
+                        <div class="alert alert-warning">
+                            <i data-feather="alert-triangle" class="me-2"></i>
+                            <strong>Bot Token Required:</strong> To use the Telegram bot, you need to set up a BOT_TOKEN secret.
+                        </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>1. Create a Telegram Bot</h6>
+                            <ol>
+                                <li>Message <code>@BotFather</code> on Telegram</li>
+                                <li>Use the <code>/newbot</code> command</li>
+                                <li>Follow the instructions to create your bot</li>
+                                <li>Copy the bot token provided</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>2. Configure the Bot</h6>
+                            <ol>
+                                <li>Add the bot token as a <code>BOT_TOKEN</code> secret</li>
+                                <li>Make sure <code>VERCEL_WEBHOOK_URL</code> is configured</li>
+                                <li>Start the bot using the button above</li>
+                                <li>Test it by messaging <code>/deploy</code> to your bot</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3">
+                        <h6>Bot Commands</h6>
+                        <ul>
+                            <li><code>/start</code> - Welcome message and available commands</li>
+                            <li><code>/status</code> - Same as /start command</li>
+                            <li><code>/deploy</code> - Trigger a Vercel deployment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+class BotManager {
+    constructor() {
+        this.init();
+        this.setupEventListeners();
+        this.checkStatus();
+    }
+
+    init() {
+        this.startBtn = document.getElementById('start-bot-btn');
+        this.stopBtn = document.getElementById('stop-bot-btn');
+        this.refreshBtn = document.getElementById('refresh-status-btn');
+        this.statusBadge = document.getElementById('bot-status-badge');
+    }
+
+    setupEventListeners() {
+        this.startBtn.addEventListener('click', () => this.startBot());
+        this.stopBtn.addEventListener('click', () => this.stopBot());
+        this.refreshBtn.addEventListener('click', () => this.checkStatus());
+    }
+
+    async checkStatus() {
+        try {
+            this.refreshBtn.disabled = true;
+            this.refreshBtn.innerHTML = '<i data-feather="loader" class="me-2 spinning"></i>Checking...';
+            feather.replace();
+            
+            const response = await fetch('/api/bot/status');
+            const data = await response.json();
+            
+            if (data.success) {
+                this.updateStatusBadge(data.running, data.configured);
+                this.updateButtons(data.running, data.configured);
+            } else {
+                this.statusBadge.className = 'badge bg-danger';
+                this.statusBadge.textContent = 'Error';
+            }
+        } catch (error) {
+            console.error('Error checking bot status:', error);
+            this.statusBadge.className = 'badge bg-danger';
+            this.statusBadge.textContent = 'Error';
+        } finally {
+            this.refreshBtn.disabled = false;
+            this.refreshBtn.innerHTML = '<i data-feather="refresh-cw" class="me-2"></i>Refresh Status';
+            feather.replace();
+        }
+    }
+
+    updateStatusBadge(running, configured) {
+        if (!configured) {
+            this.statusBadge.className = 'badge bg-warning';
+            this.statusBadge.textContent = 'Not Configured';
+        } else if (running) {
+            this.statusBadge.className = 'badge bg-success';
+            this.statusBadge.textContent = 'Running';
+        } else {
+            this.statusBadge.className = 'badge bg-secondary';
+            this.statusBadge.textContent = 'Stopped';
+        }
+    }
+
+    updateButtons(running, configured) {
+        this.startBtn.disabled = !configured || running;
+        this.stopBtn.disabled = !running;
+    }
+
+    async startBot() {
+        try {
+            this.startBtn.disabled = true;
+            this.startBtn.innerHTML = '<i data-feather="loader" class="me-2 spinning"></i>Starting...';
+            feather.replace();
+            
+            const response = await fetch('/api/bot/start', { method: 'POST' });
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showNotification(data.message, 'success');
+                setTimeout(() => this.checkStatus(), 2000);
+            } else {
+                this.showNotification(data.message, 'danger');
+            }
+        } catch (error) {
+            console.error('Error starting bot:', error);
+            this.showNotification('Error starting bot', 'danger');
+        } finally {
+            this.startBtn.disabled = false;
+            this.startBtn.innerHTML = '<i data-feather="play" class="me-2"></i>Start Bot';
+            feather.replace();
+        }
+    }
+
+    async stopBot() {
+        try {
+            this.stopBtn.disabled = true;
+            this.stopBtn.innerHTML = '<i data-feather="loader" class="me-2 spinning"></i>Stopping...';
+            feather.replace();
+            
+            const response = await fetch('/api/bot/stop', { method: 'POST' });
+            const data = await response.json();
+            
+            if (data.success) {
+                this.showNotification(data.message, 'success');
+                setTimeout(() => this.checkStatus(), 1000);
+            } else {
+                this.showNotification(data.message, 'warning');
+            }
+        } catch (error) {
+            console.error('Error stopping bot:', error);
+            this.showNotification('Error stopping bot', 'danger');
+        } finally {
+            this.stopBtn.disabled = false;
+            this.stopBtn.innerHTML = '<i data-feather="stop" class="me-2"></i>Stop Bot';
+            feather.replace();
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        const toastContainer = this.getOrCreateToastContainer();
+        
+        const toast = document.createElement('div');
+        toast.className = `toast align-items-center text-white bg-${type} border-0`;
+        toast.setAttribute('role', 'alert');
+        toast.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+        
+        toast.addEventListener('hidden.bs.toast', () => {
+            toast.remove();
+        });
+    }
+
+    getOrCreateToastContainer() {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container position-fixed top-0 end-0 p-3';
+            container.style.zIndex = '1055';
+            document.body.appendChild(container);
+        }
+        return container;
+    }
+}
+
+// Initialize bot manager when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.botManager = new BotManager();
+});
+</script>
+{% endblock %}

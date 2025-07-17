@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Vercel Deployment Manager{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-0">
+                        <i data-feather="activity" class="me-2"></i>
+                        Deployment Dashboard
+                    </h1>
+                    <p class="text-muted">Monitor and trigger Vercel deployments</p>
+                </div>
+                <div>
+                    <!-- Deploy Button -->
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#deployModal">
+                        <i data-feather="play" class="me-2"></i>
+                        Deploy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i data-feather="layers" class="text-primary" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">{{ stats.total }}</h5>
+                            <p class="card-text text-muted">Total Deployments</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i data-feather="check-circle" class="text-success" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">{{ stats.successful }}</h5>
+                            <p class="card-text text-muted">Successful</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i data-feather="x-circle" class="text-danger" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">{{ stats.failed }}</h5>
+                            <p class="card-text text-muted">Failed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <i data-feather="percent" class="text-info" style="width: 2rem; height: 2rem;"></i>
+                        </div>
+                        <div>
+                            <h5 class="card-title mb-0">{{ stats.success_rate }}%</h5>
+                            <p class="card-text text-muted">Success Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Deployments -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        <i data-feather="clock" class="me-2"></i>
+                        Recent Deployments
+                    </h5>
+                    <a href="{{ url_for('deploy_history') }}" class="btn btn-outline-secondary btn-sm">
+                        View All
+                        <i data-feather="arrow-right" class="ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if recent_deployments %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Triggered</th>
+                                        <th>Duration</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="deployments-table">
+                                    {% for deployment in recent_deployments %}
+                                    <tr data-deployment-id="{{ deployment.id }}">
+                                        <td>
+                                            {% if deployment.status == 'success' %}
+                                                <span class="badge bg-success">
+                                                    <i data-feather="check"></i>
+                                                    Success
+                                                </span>
+                                            {% elif deployment.status == 'failed' %}
+                                                <span class="badge bg-danger">
+                                                    <i data-feather="x"></i>
+                                                    Failed
+                                                </span>
+                                            {% elif deployment.status == 'building' %}
+                                                <span class="badge bg-warning">
+                                                    <i data-feather="loader" class="spinning"></i>
+                                                    Building
+                                                </span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">
+                                                    <i data-feather="clock"></i>
+                                                    {{ deployment.status.title() }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">
+                                                {{ deployment.trigger_time.strftime('%Y-%m-%d %H:%M:%S') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            {% if deployment.completion_time %}
+                                                {% set duration = (deployment.completion_time - deployment.trigger_time).total_seconds() %}
+                                                <span class="text-muted">{{ "%.1f"|format(duration) }}s</span>
+                                            {% elif deployment.status == 'building' %}
+                                                <span class="text-warning">In progress...</span>
+                                            {% else %}
+                                                <span class="text-muted">-</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if deployment.vercel_url %}
+                                                <a href="{{ deployment.vercel_url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                                    <i data-feather="external-link"></i>
+                                                    View
+                                                </a>
+                                            {% endif %}
+                                            {% if deployment.error_message %}
+                                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="tooltip" title="{{ deployment.error_message }}">
+                                                    <i data-feather="alert-circle"></i>
+                                                    Error
+                                                </button>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-5">
+                            <i data-feather="cloud" class="text-muted mb-3" style="width: 3rem; height: 3rem;"></i>
+                            <p class="text-muted">No deployments yet. Click "Deploy Now" to trigger your first deployment.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Deploy Confirmation Modal -->
+<div class="modal fade" id="deployModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i data-feather="play" class="me-2"></i>
+                    Confirm Deployment
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to trigger a new Vercel deployment?</p>
+                <div class="alert alert-info">
+                    <i data-feather="info" class="me-2"></i>
+                    This will trigger a new build and deployment of your Vercel project.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="{{ url_for('trigger_deploy') }}" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">
+                        <i data-feather="play" class="me-2"></i>
+                        Deploy Now
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

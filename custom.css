@@ -1,0 +1,194 @@
+/* Custom styles for Vercel Deployment Manager */
+
+/* Spinning animation for loading icons */
+.spinning {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Status badges with consistent sizing */
+.badge {
+    font-size: 0.75em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.badge i {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Card hover effects */
+.card {
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Table improvements */
+.table-responsive {
+    border-radius: 0.375rem;
+}
+
+.table th {
+    border-top: none;
+    font-weight: 600;
+    color: var(--bs-body-color);
+    background-color: var(--bs-gray-100);
+}
+
+/* Button improvements */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.btn i {
+    width: 1rem;
+    height: 1rem;
+}
+
+.btn-lg i {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* Statistics cards */
+.card-body .card-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+}
+
+/* Modal improvements */
+.modal-body pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Alert improvements */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert i {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+}
+
+/* Navigation improvements */
+.navbar-brand {
+    font-weight: 600;
+}
+
+.navbar-brand i {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+}
+
+footer i {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Empty state styling */
+.text-center i {
+    opacity: 0.5;
+}
+
+/* Pagination improvements */
+.pagination .page-link {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.pagination .page-link i {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .btn-group .btn {
+        border-radius: 0.375rem !important;
+        margin-bottom: 0.25rem;
+    }
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Success/error states */
+.text-success {
+    color: var(--bs-success) !important;
+}
+
+.text-danger {
+    color: var(--bs-danger) !important;
+}
+
+.text-warning {
+    color: var(--bs-warning) !important;
+}
+
+.text-info {
+    color: var(--bs-info) !important;
+}
+
+/* Code blocks */
+code {
+    color: var(--bs-primary);
+    background-color: var(--bs-gray-100);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+}
+
+/* Deployment status indicators */
+.status-success {
+    color: var(--bs-success);
+}
+
+.status-failed {
+    color: var(--bs-danger);
+}
+
+.status-building {
+    color: var(--bs-warning);
+}
+
+.status-initiated {
+    color: var(--bs-info);
+}
