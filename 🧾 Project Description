@@ -1,0 +1,34 @@
+Gnosis Vault is a high-security, enterprise-grade wallet automation platform built on the Safe{Wallet} (formerly Gnosis Safe) protocol. Designed for DAOs, organizations, and developer teams managing treasury operations at scale, Gnosis Vault integrates cutting-edge multi-signature logic, GitHub workflows, and real-time communication channels to offer a truly autonomous and auditable Web3 treasury system.
+
+🚀 Core Features:
+	•	Multi-Signature Governance: Built on top of Safe{Wallet}, supporting threshold-based approvals.
+	•	CI/CD for Crypto: Proposals, transactions, and treasury actions triggered from GitHub Actions and PRs.
+	•	Discord/Webhook Integration: Real-time Safe activity alerts in your team’s communication channels.
+	•	Reown & AppKit Integration: Leverage MPC-based signing, dApp frontend management, and multi-chain support.
+	•	Private, Secure, and Auditable: Hosted in a locked-down GitHub Enterprise environment with 2FA, SAML SSO, and optional IP allowlisting.
+
+🛠️ Built With:
+	•	TypeScript / Node.js / GitHub Actions
+	•	Safe{Core} SDK + AppKit
+	•	Reown MPC Signing
+	•	Vercel Frontend Hosting
+	•	Azure Virtual Network + GitHub Enterprise Security Features
+
+⸻
+
+🔐 Security First:
+
+Gnosis Vault enforces:
+	•	Mandatory 2FA for all enterprise members
+	•	Secure 2FA methods only (authenticator apps, security keys, passkeys)
+	•	SAML Single Sign-On (SSO)
+	•	IP allowlisting & SSH certificate controls
+	•	Immutable audit trails for every transaction
+
+⸻
+
+🧠 Philosophy:
+
+We’re not here to LARP security—we enforce it. Every commit, transaction, and permission is intentional. This isn’t just DevOps meets DeFi—it’s the next generation of programmable, defensible capital management. If the Gnosis Vault had a motto, it’d be:
+
+“Build fast, move safe
