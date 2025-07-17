@@ -1,0 +1,95 @@
+/**
+ * generate-upside-down.ts
+ *
+ * Reads the root README.md, slices it into "sections" using horizontal rules (`---`)
+ * as natural dividers, reverses the section order, and writes README.upside-down.md.
+ *
+ * NOTE: This is a structural flip (top-to-bottom), NOT a character mirror.
+ * Edit README.md normally; this file is auto-generated.
+ */
+
+import { readFileSync, writeFileSync, existsSync } from "fs";
+import path from "path";
+
+const INPUT = path.resolve(process.cwd(), "README.md");
+const OUTPUT = path.resolve(process.cwd(), "README.upside-down.md");
+
+// Flexible matcher: lines of only dashes (>=3) w/ optional spaces.
+const HR_RE = /^\s*-{3,}\s*$/m;
+
+function splitOnHorizontalRules(markdown: string): string[] {
+  // We'll scan line by line and chunk whenever we see a horizontal rule line.
+  const lines = markdown.split(/\r?\n/);
+  const chunks: string[] = [];
+  let buf: string[] = [];
+
+  for (const line of lines) {
+    if (line.match(/^\s*-{3,}\s*$/)) {
+      // push buffer as chunk
+      chunks.push(buf.join("\n"));
+      buf = [];
+      // store the hr line as its own chunk so we can preserve order if needed
+      chunks.push(line); // keep explicit
+    } else {
+      buf.push(line);
+    }
+  }
+  // push remainder
+  chunks.push(buf.join("\n"));
+
+  // Now recombine into logical "sections": collapse <content,hr> pairs so that
+  // the hr stays attached to the *end* of a section (feels more natural visually).
+  const sections: string[] = [];
+  let current = "";
+
+  for (const c of chunks) {
+    if (c.match(/^\s*-{3,}\s*$/)) {
+      current += (current ? "\n" : "") + c;
+      sections.push(current.trimEnd());
+      current = "";
+    } else {
+      current += (current ? "\n" : "") + c;
+    }
+  }
+  if (current.trim().length) sections.push(current.trimEnd());
+
+  // Filter out empty sections caused by repeated --- spacing noise
+  return sections.filter((s) => s.replace(/\s+/g, "").length > 0);
+}
+
+function flipMarkdownSections(content: string): string {
+  const sections = splitOnHorizontalRules(content);
+  if (sections.length <= 1) {
+    // fallback: line-reverse
+    return (
+      `<!-- AUTO-GENERATED: only 1 section detected; line-reversed fallback -->\n` +
+      content.split(/\r?\n/).reverse().join("\n")
+    );
+  }
+
+  const flipped = sections.reverse().join("\n\n---\n\n");
+  return [
+    "<!-- AUTO-GENERATED FILE. DO NOT EDIT. -->",
+    "<!-- Run: npm run flip-readme to regenerate -->",
+    "",
+    flipped.trim(),
+    "",
+    "<!-- /AUTO-GENERATED -->",
+    "",
+  ].join("\n");
+}
+
+function main() {
+  if (!existsSync(INPUT)) {
+    console.error(`❌ Cannot find ${INPUT}. Are you in repo root?`);
+    process.exit(1);
+  }
+  const original = readFileSync(INPUT, "utf-8");
+  const flipped = flipMarkdownSections(original);
+  writeFileSync(OUTPUT, flipped, "utf-8");
+  console.log("✅ Flipped README written:", OUTPUT);
+}
+
+if (require.main === module) {
+  main();
+}
