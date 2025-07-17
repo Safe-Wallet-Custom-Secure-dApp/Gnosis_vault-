@@ -364,3 +364,103 @@ index 0000000..fffffff
 +
 -- 
 2.35.1 (AppleGit-143)
+Safe Smart Account
+
+npm version Build Status Coverage Status
+
+Warning
+
+This branch contains changes that are under development To use the latest audited version make sure to use the correct commit. The tagged versions that are used by the Safe team can be found in the releases.
+Usage
+
+Install requirements with npm:
+
+npm i
+Testing
+
+To run the tests:
+
+npm run build
+npm run test
+Optionally, if you want to run the ERC-4337 compatibility test, it uses a live bundler and node, so it contains some pre-requisites:
+
+Define the environment variables:
+ERC4337_TEST_BUNDLER_URL=
+ERC4337_TEST_NODE_URL=
+ERC4337_TEST_SINGLETON_ADDRESS=
+ERC4337_TEST_SAFE_FACTORY_ADDRESS=
+MNEMONIC=
+Pre-fund the executor account derived from the mnemonic with some Native Token to cover the deployment of an ERC-4337 module and the pre-fund of the Safe for the test operation.
+Deployments
+
+A collection of the different Safe contract deployments and their addresses can be found in the Safe deployments repository.
+
+To add support for a new network follow the steps of the Deploy section and create a PR in the Safe deployments repository.
+
+Deploy
+
+Warning
+
+Make sure to use the correct commit when deploying the contracts. Any change (even comments) within the contract files will result in different addresses. The tagged versions that are used by the Safe team can be found in the releases.
+Current version: The latest release is v1.5.0 on the commit dc437e8
+This will deploy the contracts deterministically and verify the contracts on etherscan using Solidity 0.7.6 by default.
+
+Preparation:
+
+Set MNEMONIC in .env
+Set INFURA_KEY in .env
+npm run deploy-all <network>
+This will perform the following steps
+
+npm run build
+npx hardhat --network <network> deploy
+npx hardhat --network <network> sourcify
+npx hardhat --network <network> etherscan-verify
+npx hardhat --network <network> local-verify
+Custom Networks
+
+It is possible to use the NODE_URL env var to connect to any EVM based network via an RPC endpoint. This connection then can be used with the custom network.
+
+E.g. to deploy the Safe contract suite on that network you would run npm run deploy-all custom.
+
+The resulting addresses should be on all networks the same.
+
+Note: Address will vary if contract code is changed or a different Solidity version is used.
+
+Replay protection (EIP-155)
+
+Some networks require replay protection, making it incompatible with the default deployment process as it relies on a presigned transaction without replay protection (see https://github.com/Arachnid/deterministic-deployment-proxy).
+
+Safe Smart Account contracts use a different deterministic deployment proxy (https://github.com/safe-global/safe-singleton-factory). To make sure that the latest version of this package is installed, run npm i --save-dev @safe-global/safe-singleton-factory before deployment. For more information, including deploying the factory to a new network, please refer to the factory repository.
+
+Note: This will result in different addresses compared to hardhat's default deterministic deployment process.
+
+Verify contract
+
+This command will use the deployment artifacts to compile the contracts and compare them to the onchain code
+
+npx hardhat --network <network> local-verify
+This command will upload the contract source to Etherscan
+
+npx hardhat --network <network> etherscan-verify
+Documentation
+
+Safe developer portal
+Error codes
+Coding guidelines
+Audits and Formal Verification
+
+for Version 1.5.0 by Certora & Ackee
+for Version 1.4.0/1.4.1 by Ackee Blockchain
+for Version 1.3.0 by G0 Group
+for Version 1.2.0 by G0 Group
+for Version 1.1.1 by G0 Group
+for Version 1.0.0 by Runtime Verification
+for Version 0.0.1 by Alexey Akhunov
+Security and Liability
+
+All contracts are WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+License
+
+All smart contracts are released under LGPL-3.0
