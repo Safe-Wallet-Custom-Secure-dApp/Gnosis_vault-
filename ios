@@ -7,3 +7,5 @@ Gnosis_vault-/
 ├── capacitor.config.ts      <-- NEW
 ├── tsconfig.json
 └── README.md
+ npm install @capacitor/core @capacitor/cli
+npx cap init "Gnosis Vault" "com.rchigozle60@gmail.com.gnosisvault"
