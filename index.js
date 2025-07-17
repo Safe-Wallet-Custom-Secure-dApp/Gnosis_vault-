@@ -1,24 +1,29 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UndecodedEventLog = exports.EventLog = exports.ContractTransactionResponse = exports.ContractTransactionReceipt = exports.ContractUnknownEventPayload = exports.ContractEventPayload = exports.ContractFactory = exports.Contract = exports.BaseContract = void 0;
 /**
- *  A **Contract** object is a meta-class (a class whose definition is
- *  defined at runtime), which communicates with a deployed smart contract
- *  on the blockchain and provides a simple JavaScript interface to call
- *  methods, send transaction, query historic logs and listen for its events.
+ *  Addresses are a fundamental part of interacting with Ethereum. They
+ *  represent the global identity of Externally Owned Accounts (accounts
+ *  backed by a private key) and contracts.
  *
- *  @_section: api/contract:Contracts  [about-contracts]
+ *  The Ethereum Naming Service (ENS) provides an interconnected ecosystem
+ *  of contracts, standards and libraries which enable looking up an
+ *  address for an ENS name.
+ *
+ *  These functions help convert between various formats, validate
+ *  addresses and safely resolve ENS names.
+ *
+ *  @_section: api/address:Addresses  [about-addresses]
  */
-var contract_js_1 = require("./contract.js");
-Object.defineProperty(exports, "BaseContract", { enumerable: true, get: function () { return contract_js_1.BaseContract; } });
-Object.defineProperty(exports, "Contract", { enumerable: true, get: function () { return contract_js_1.Contract; } });
-var factory_js_1 = require("./factory.js");
-Object.defineProperty(exports, "ContractFactory", { enumerable: true, get: function () { return factory_js_1.ContractFactory; } });
-var wrappers_js_1 = require("./wrappers.js");
-Object.defineProperty(exports, "ContractEventPayload", { enumerable: true, get: function () { return wrappers_js_1.ContractEventPayload; } });
-Object.defineProperty(exports, "ContractUnknownEventPayload", { enumerable: true, get: function () { return wrappers_js_1.ContractUnknownEventPayload; } });
-Object.defineProperty(exports, "ContractTransactionReceipt", { enumerable: true, get: function () { return wrappers_js_1.ContractTransactionReceipt; } });
-Object.defineProperty(exports, "ContractTransactionResponse", { enumerable: true, get: function () { return wrappers_js_1.ContractTransactionResponse; } });
-Object.defineProperty(exports, "EventLog", { enumerable: true, get: function () { return wrappers_js_1.EventLog; } });
-Object.defineProperty(exports, "UndecodedEventLog", { enumerable: true, get: function () { return wrappers_js_1.UndecodedEventLog; } });
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.resolveAddress = exports.isAddress = exports.isAddressable = exports.getCreate2Address = exports.getCreateAddress = exports.getIcapAddress = exports.getAddress = void 0;
+null;
+var address_js_1 = require("./address.js");
+Object.defineProperty(exports, "getAddress", { enumerable: true, get: function () { return address_js_1.getAddress; } });
+Object.defineProperty(exports, "getIcapAddress", { enumerable: true, get: function () { return address_js_1.getIcapAddress; } });
+var contract_address_js_1 = require("./contract-address.js");
+Object.defineProperty(exports, "getCreateAddress", { enumerable: true, get: function () { return contract_address_js_1.getCreateAddress; } });
+Object.defineProperty(exports, "getCreate2Address", { enumerable: true, get: function () { return contract_address_js_1.getCreate2Address; } });
+var checks_js_1 = require("./checks.js");
+Object.defineProperty(exports, "isAddressable", { enumerable: true, get: function () { return checks_js_1.isAddressable; } });
+Object.defineProperty(exports, "isAddress", { enumerable: true, get: function () { return checks_js_1.isAddress; } });
+Object.defineProperty(exports, "resolveAddress", { enumerable: true, get: function () { return checks_js_1.resolveAddress; } });
 //# sourceMappingURL=index.js.map
