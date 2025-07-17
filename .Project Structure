@@ -1,13 +1,150 @@
-/ (root)
-├── public/
-│   └── logo.png              <- Your Safe logo
-├── components/
-│   └── SafeDashboard.tsx     <- Main dashboard logic
-├── pages/
-│   └── index.tsx             <- Loads and renders dashboard
-├── styles/
-│   └── globals.css           <- Optional custom styles
-├── package.json              <- Project config
-├── tsconfig.json             <- TypeScript config
-├── next.config.js            <- (Optional)
-└── .env                      <- RPCs + Safe addresses
+Gnosis_vault-/
+├── .github/
+│   └── workflows/
+│       └── update-readme.yml      ✅ GitHub Action
+├── scripts/
+│   └── generate-upside-down.ts    ✅ Flip logic lives here
+├── README.md                      ✅ Your original README
+├── README.upside-down.md         ✅ Flipped version (auto-generated)
+├── package.json                  ✅ Scripts are added here
+├── tsconfig.json                 ✅ Config for TS scripts
+└── patch.diff                    ✅ Save this file temporarily here
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Vault Bot <bot@gnosis-vault.xyz>
+Date: Fri, 18 Jul 2025 12:00:00 +0000
+Subject: [PATCH] chore(setup): full upside-down README sync
+
+---
+ .github/workflows/update-readme.yml       |  27 +++++++++++++++++++++++++++
+ package.json                              |  16 ++++++++++++++++
+ scripts/generate-upside-down.ts           |  42 ++++++++++++++++++++++++++++++++++++++++++
+ tsconfig.json                             |   9 +++++++++
+ README.upside-down.md                     |   2 ++
+ 5 files changed, 96 insertions(+)
+ create mode 100644 .github/workflows/update-readme.yml
+ create mode 100644 scripts/generate-upside-down.ts
+ create mode 100644 tsconfig.json
+ create mode 100644 README.upside-down.md
+
+diff --git a/.github/workflows/update-readme.yml b/.github/workflows/update-readme.yml
+new file mode 100644
+index 0000000..aaaaaaaa
+--- /dev/null
++++ b/.github/workflows/update-readme.yml
+@@ -0,0 +1,27 @@
++name: Update README + Flip
++
++on:
++  push:
++    branches: [main]
++  workflow_dispatch:
++
++jobs:
++  flip-and-commit:
++    runs-on: ubuntu-latest
++    steps:
++      - name: Checkout repo
++        uses: actions/checkout@v4
++
++      - name: Setup Node.js
++        uses: actions/setup-node@v4
++        with:
++          node-version: 20
++
++      - name: Install dependencies
++        run: |
++          npm install
++          npm install -D ts-node typescript
++
++      - name: Generate upside-down README
++        run: npm run flip-readme
++
++      - name: Commit upside-down README if changed
++        run: |
++          if git diff --quiet README.upside-down.md; then
++            echo "No upside-down changes."
++            exit 0
++          fi
++          git config user.name "gnosisbot"
++          git config user.email "actions@users.noreply.github.com"
++          git add README.upside-down.md
++          git commit -m "chore(readme): auto-sync upside-down README [skip ci]"
++          git push
+diff --git a/package.json b/package.json
+index bbbbbbb..ccccccc 100644
+--- a/package.json
++++ b/package.json
+@@ -1,5 +1,21 @@
+ {
++  "scripts": {
++    "flip-readme": "ts-node scripts/generate-upside-down.ts",
++    "update-readme": "npm run flip-readme && git add README.upside-down.md && git commit -m 'chore(readme): manual flip 📄🔄' || echo 'No changes'",
++    "dev": "ts-node-dev --respawn --transpile-only index.ts",
++    "start": "ts-node index.ts",
++    "lint": "eslint . --ext .ts",
++    "format": "prettier --write .",
++    "typecheck": "tsc --noEmit",
++    "build": "tsc",
++    "clean": "rm -rf dist node_modules && echo '🧹 Cleaned.'"
++  },
++  "devDependencies": {
++    "ts-node": "^10.9.1",
++    "typescript": "^5.0.0"
++  }
+ }
+diff --git a/scripts/generate-upside-down.ts b/scripts/generate-upside-down.ts
+new file mode 100644
+index 0000000..ddddddd
+--- /dev/null
++++ b/scripts/generate-upside-down.ts
+@@ -0,0 +1,42 @@
++#!/usr/bin/env ts-node
++import { readFileSync, writeFileSync } from "fs";
++import path from "path";
++
++const INPUT = path.resolve("README.md");
++const OUTPUT = path.resolve("README.upside-down.md");
++
++function flipMarkdown(content: string): string {
++  const sections = content
++    .split(/\n(?=## )/g)
++    .reverse()
++    .join("\n");
++
++  return `<!-- AUTO-GENERATED FLIPPED README -->\n\n${sections}`;
++}
++
++function main() {
++  const original = readFileSync(INPUT, "utf-8");
++  const flipped = flipMarkdown(original);
++  writeFileSync(OUTPUT, flipped, "utf-8");
++  console.log("✅ README flipped successfully.");
++}
++
++main();
+diff --git a/tsconfig.json b/tsconfig.json
+new file mode 100644
+index 0000000..eeeeeee
+--- /dev/null
++++ b/tsconfig.json
+@@ -0,0 +1,9 @@
++{
++  "compilerOptions": {
++    "target": "ES2020",
++    "module": "CommonJS",
++    "strict": true,
++    "esModuleInterop": true,
++    "skipLibCheck": true
++  },
++  "include": ["scripts/**/*.ts"]
++}
+diff --git a/README.upside-down.md b/README.upside-down.md
+new file mode 100644
+index 0000000..fffffff
+--- /dev/null
++++ b/README.upside-down.md
+@@ -0,0 +1,2 @@
++<!-- AUTO-GENERATED FLIPPED README – run `npm run flip-readme` -->
++
+-- 
+2.35.1 (AppleGit-143)
