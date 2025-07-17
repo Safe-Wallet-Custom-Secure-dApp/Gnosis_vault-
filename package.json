@@ -1,47 +1,24 @@
 {
-  "name": "gnosis-vault-safe-app",
-  "version": "1.0.0",
-  "description": "Experimental Safe App: Gnosis Vault 🔐",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "dependencies": {
-    "@safe-global/safe-react-components": "^6.0.2",
-    "@safe-global/safe-apps-sdk": "^6.0.3",
-    "@safe-global/safe-apps-react-sdk": "^6.0.2",
-    "@safe-global/safe-core-sdk": "^3.3.5",
-    "@safe-global/protocol-kit": "^1.1.1",
-    "ethers": "^6.7.0",
-    "web3": "^1.10.3",
-    "viem": "^1.14.0",
-    "@studydefi/money-legos": "^2.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.7",
-    "typescript": "^5.4.0"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
-}
-{
-  "scripts": {
-    "flip-readme": "ts-node scripts/generate-upside-down.ts"
+    // === 🚀 Core automation ===
+    "flip-readme": "ts-node scripts/generate-upside-down.ts",
+    "update-readme": "npm run flip-readme && git add README.upside-down.md && git commit -m 'chore(readme): manual flip 📄🔄' || echo 'No changes'",
+
+    // === 🧪 Dev & Debug ===
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "start": "ts-node index.ts",
+
+    // === 🧼 Lint + Format ===
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+
+    // === ✅ Type Checking ===
+    "typecheck": "tsc --noEmit",
+
+    // === 🔧 Build (optional) ===
+    "build": "tsc",
+
+    // === 💣 Emergency cleanup ===
+    "clean": "rm -rf dist .turbo node_modules && echo '🧹 Cleaned up project.'"
   }
 }
