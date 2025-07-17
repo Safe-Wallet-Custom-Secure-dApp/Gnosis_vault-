@@ -1,2 +1,40 @@
-# Page
+name: Update README + Flip
 
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  flip-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install -D ts-node typescript
+
+      - name: Generate upside-down README
+        run: npm run flip-readme
+
+      - name: Commit upside-down README if changed
+        run: |
+          if git diff --quiet README.upside-down.md; then
+            echo "No upside-down changes."
+            exit 0
+          fi
+          git config user.name "gnosisbot"
+          git config user.email "actions@users.noreply.github.com"
+          git add README.upside-down.md
+          git commit -m "chore(readme): auto-sync upside-down README [skip ci]"
+          git push
