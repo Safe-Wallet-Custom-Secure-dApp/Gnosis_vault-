@@ -1,0 +1,25 @@
+labels:
+  - name: safe:tx
+    description: Proposals and transaction updates
+    color: "0e8a16"
+  - name: safe:dashboard
+    description: Frontend or dashboard interface changes
+    color: "0366d6"
+  - name: bug
+    description: Something isn’t working
+    color: "d73a4a"
+  - name: enhancement
+    description: Feature request or improvement
+    color: "a2eeef"
+  - name: github-actions
+    description: CI/CD workflows and automation
+    color: "6f42c1"
+  - name: netlify
+    description: Netlify-related configurations or errors
+    color: "15847d"
+  - name: discord-bot
+    description: Bot/webhook integration for Discord
+    color: "f9d0c4"
+  - name: wip
+    description: Work in progress
+    color: "fbca04"
