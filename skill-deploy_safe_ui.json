@@ -1,0 +1,34 @@
+{
+  "name": "deploy_safe_ui",
+  "description": "Deploys Safe UI to Vercel and sends a webhook notification.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "safe": {
+        "type": "string",
+        "description": "Safe wallet address"
+      },
+      "net": {
+        "type": "string",
+        "description": "Network name (e.g., mainnet, arbitrum)"
+      },
+      "vercel_token": {
+        "type": "string",
+        "description": "Vercel token"
+      },
+      "org_id": {
+        "type": "string",
+        "description": "Vercel org ID"
+      },
+      "proj_id": {
+        "type": "string",
+        "description": "Vercel project ID"
+      },
+      "webhook": {
+        "type": "string",
+        "description": "Webhook URL"
+      }
+    },
+    "required": ["safe", "net", "vercel_token"]
+  }
+}
